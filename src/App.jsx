@@ -1,28 +1,41 @@
-import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useState } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./Component/Navbar";
 import Home from "./Component/Home";
 import Student from "./Component/Student";
 import Teacher from "./Component/Teacher";
 import Result from "./Component/Result";
-import Contact from "./Component/Contact";
-
+import Login from "./Component/login";
+import { ToastProvider } from "./context/ToastContext"; // Import ToastProvider
 import "./App.css";
 
 function App() {
+  const [isAuthenticate, setIsAuthenticate] = useState(false);
+
   return (
-  
-      <BrowserRouter>
-        <Navbar />
+    <BrowserRouter>
+    <ToastProvider>
+      <>
+        {isAuthenticate && <Navbar setIsAuthenticate={setIsAuthenticate} />}
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/student" element={<Student />} />
-          <Route path="/teacher" element={<Teacher />} />
-          <Route path="/result" element={<Result />} />
+          {isAuthenticate ? (
+            <>
+              <Route path="/" element={<Home />} />
+              <Route path="/student" element={<Student />} />
+              <Route path="/teacher" element={<Teacher />} />
+              <Route path="/result" element={<Result />} />
+              <Route path="*" element={<Navigate to="/" />} />
+            </>
+          ) : (
+            <>
+              {/* If not authenticated, redirect all routes to Login */}
+              <Route path="*" element={<Login setIsAuthenticate={setIsAuthenticate} />} />
+            </>
+          )}
         </Routes>
-      </BrowserRouter>
-    
+      </>
+      </ToastProvider>
+    </BrowserRouter>
   );
 }
 
