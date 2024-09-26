@@ -1,52 +1,41 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom'
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+import { useToast } from "../context/ToastContext";
 
-function Navbar() {
+function Navbar({ setIsAuthenticate }) {
+const { addToast } = useToast();
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+	addToast('Successfully logged out!', 'success');
+    setIsAuthenticate(false);
+  };
+
   return (
-    <>
-   
-    {/* // <nav className=''>
-    // <div className='bg-slate-500'>
-  
-    //     <ul className="flex flex-row">    
-    //     <NavLink to="/" ><li>Home</li></NavLink>
-    //     <NavLink to="/contact" ><li>Contact</li></NavLink>
-    //     <NavLink to="/student" ><li>Student</li></NavLink>
-    //     <NavLink to="/teacher" ><li>Teacher</li></NavLink>
-    //     <NavLink to="/result" ><li>Result</li></NavLink>
-    //     </ul>
-     
-    // </div>
-    // </nav> */}
-    <header class="lg:px-16 px-4 bg-gradient-to-r from-blue-200 to-cyan-200 flex flex-wrap items-center py-4 shadow-md">
-    <div class="flex-1 flex justify-between items-center">
-        <a href="#" class="text-xl">Student Portal</a>
-    </div>
-
-    <label for="menu-toggle" class="pointer-cursor md:hidden block">
-      <svg class="fill-current text-gray-900"
-        xmlns="https://img.icons8.com/?size=100&id=XKedzxVhRNPR&format=png&color=000000" width="20" height="20" viewBox="0 0 20 20">
-        <title>menu</title>
-        <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
-        
-      </svg>
-    </label>
-    <input class="hidden" type="checkbox" id="menu-toggle" />
-
-    <div class="hidden md:flex md:items-center md:w-auto w-full" id="menu">
-        <nav>
-            <ul class="md:flex items-center justify-between text-base text-gray-700 pt-4 md:pt-0">
-               <li> <NavLink className="md:p-4 py-3 px-0 block" to="/" >Home</NavLink></li>
-               <li> <NavLink className="md:p-4 py-3 px-0 block" to="/student" >Student</NavLink></li>
-               <li> <NavLink className="md:p-4 py-3 px-0 block" to="/teacher" >Teacher</NavLink></li>
-               <li> <NavLink className="md:p-4 py-3 px-0 block" to="/result" >Result</NavLink></li>
-            
-            </ul>
-        </nav>
-    </div>
-</header>
-    </>
-  )
+    <nav className="bg-gray-200 shadow shadow-gray-300 w-100 px-8 md:px-auto">
+      <div className="md:h-16 h-28 mx-auto md:px-4 container flex items-center justify-between flex-wrap md:flex-nowrap">
+        <div className="text-indigo-500 md:order-1">
+          <img src="https://img.icons8.com/?size=100&id=XKedzxVhRNPR&format=png&color=000000" alt="student portal" className="h-10 w-10" />
+        </div>
+        <div className="text-gray-500 order-3 w-full md:w-auto md:order-2">
+          <ul className="flex font-semibold justify-between">
+            <li className="md:px-4 md:py-2 text-indigo-500"><NavLink to="/">Home</NavLink></li>
+            <li className="md:px-4 md:py-2 hover:text-indigo-400"><NavLink to="/student">Student</NavLink></li>
+            <li className="md:px-4 md:py-2 hover:text-indigo-400"><NavLink to="/teacher">Teacher</NavLink></li>
+            <li className="md:px-4 md:py-2 hover:text-indigo-400"><NavLink to="/result">Result</NavLink></li>
+          </ul>
+        </div>
+        <div className="order-2 md:order-3">
+          <button className="px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-gray-50 rounded-xl flex items-center gap-2" onClick={handleLogout}>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M3 3a1 1 0 011 1v12a1 1 0 11-2 0V4a1 1 0 011-1zm7.707 3.293a1 1 0 010 1.414L9.414 9H17a1 1 0 110 2H9.414l1.293 1.293a1 1 0 01-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0z" clipRule="evenodd" />
+            </svg>
+            <span>Logout</span>
+          </button>
+        </div>
+      </div>
+    </nav>
+  );
 }
 
-export default Navbar
+export default Navbar;
