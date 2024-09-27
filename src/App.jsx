@@ -7,6 +7,7 @@ import Teacher from "./Component/Teacher";
 import Result from "./Component/Result";
 import Login from "./Component/login";
 import { ToastProvider } from "./context/ToastContext"; // Import ToastProvider
+import { StudentProvider } from './context/StudentContext';
 import "./App.css";
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
   return (
     <BrowserRouter>
     <ToastProvider>
+      <StudentProvider>
       <>
         {isAuthenticate && <Navbar setIsAuthenticate={setIsAuthenticate} />}
         <Routes>
@@ -34,6 +36,7 @@ function App() {
           )}
         </Routes>
       </>
+      </StudentProvider>
       </ToastProvider>
     </BrowserRouter>
   );
