@@ -51,3 +51,6 @@
 .toast.error {
   background-color: red;
 }
+.active{
+  color: rgb(79 70 229);
+}

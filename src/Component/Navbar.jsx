@@ -1,14 +1,14 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { useAuth } from '../context/authContext'
 import { useToast } from "../context/ToastContext";
-
-function Navbar({ setIsAuthenticate }) {
+function Navbar() {
 const { addToast } = useToast();
-
+const {logout} = useAuth();
   const handleLogout = (e) => {
     e.preventDefault();
 	addToast('Successfully logged out!', 'success');
-    setIsAuthenticate(false);
+    logout();
   };
 
   return (
@@ -19,7 +19,7 @@ const { addToast } = useToast();
         </div>
         <div className="text-gray-500 order-3 w-full md:w-auto md:order-2">
           <ul className="flex font-semibold justify-between">
-            <li className="md:px-4 md:py-2 text-indigo-500"><NavLink to="/">Home</NavLink></li>
+            <li className="md:px-4 md:py-2 hover:text-indigo-400"><NavLink to="/">Home</NavLink></li>
             <li className="md:px-4 md:py-2 hover:text-indigo-400"><NavLink to="/student">Student</NavLink></li>
             <li className="md:px-4 md:py-2 hover:text-indigo-400"><NavLink to="/teacher">Teacher</NavLink></li>
             <li className="md:px-4 md:py-2 hover:text-indigo-400"><NavLink to="/result">Result</NavLink></li>

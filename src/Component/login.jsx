@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import { useToast } from "../context/ToastContext";
+import { useAuth } from "../context/AuthContext"; // Import the useAuth hook
 
-function Login({ setIsAuthenticate }) {
+function Login() {
+  const { login } = useAuth(); // Access the login function from the context
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const { addToast } = useToast();
 
-
   const handleLogin = (e) => {
     e.preventDefault();
-    
+
     // Form validation
     const emailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
     if (!emailPattern.test(name)) {
@@ -22,13 +23,19 @@ function Login({ setIsAuthenticate }) {
       setError("Password must be at least 6 characters long.");
       return;
     }
-    
 
-    addToast('Successfully logged in!', 'success');
-    setIsAuthenticate(true);
-    setError("");  // Clear any previous error
-    setName("");  // Clear input fields after login
-    setPassword("");
+    // Check credentials
+    const predefinedEmail = "saurabhcseg2252@gmail.com";
+    const predefinedPassword = "123456";
+    if (name === predefinedEmail && password === predefinedPassword) {
+      addToast('Successfully logged in!', 'success');
+      login(); // Call the login function from context
+      setName(""); // Clear input fields after login
+      setPassword("");
+      setError(""); // Clear any previous error
+    } else {
+      setError("Invalid email or password."); // Set error if credentials are incorrect
+    }
   };
 
   return (
@@ -38,14 +45,10 @@ function Login({ setIsAuthenticate }) {
           <div className="absolute inset-0 bg-gradient-to-r from-violet-400 via-blue-500 to-indigo-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
           <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
             <div className="max-w-md mx-auto">
-              <div>
-                <h1 className="text-2xl font-semibold">Login</h1>
-              </div>
-              
+              <h1 className="text-2xl font-semibold">Login</h1>
               <form onSubmit={handleLogin}>
                 <div className="divide-y divide-gray-200">
                   <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
-
                     <div className="relative">
                       <input
                         autoComplete="off"
@@ -85,20 +88,16 @@ function Login({ setIsAuthenticate }) {
                     </div>
 
                     {/* Error message display */}
-                    {error && (
-                      <div className="text-red-500 text-sm">{error}</div>
-                    )}
+                    {error && <div className="text-red-500 text-sm">{error}</div>}
 
                     <div className="relative">
                       <button type="submit" className="bg-gradient-to-r from-violet-400 via-blue-500 to-indigo-600 text-white rounded-md px-2 py-1">
                         Submit
                       </button>
                     </div>
-
                   </div>
                 </div>
               </form>
-
             </div>
           </div>
         </div>
