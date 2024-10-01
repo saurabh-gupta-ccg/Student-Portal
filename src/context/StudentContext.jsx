@@ -14,10 +14,14 @@ export const StudentProvider = ({ children }) => {
 
   const deleteStudent = (id) => {
     setStudents((prevStudents) => prevStudents.filter((student) => student.id !== id));
+    
+  };
+  const updateStudent = (updatedStudent) => {
+    setStudents(students.map(student => (student.id === updatedStudent.id ? updatedStudent : student)));
   };
 
   return (
-    <StudentContext.Provider value={{ students, addStudent, deleteStudent }}>
+    <StudentContext.Provider value={{ students, addStudent, deleteStudent,updateStudent }}>
       {children}
     </StudentContext.Provider>
   );

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useToast } from "../context/ToastContext";
-import { useAuth } from "../context/AuthContext"; // Import the useAuth hook
+import { useAuth } from "../context/authContext"; // Import the useAuth hook
 
 function Login() {
   const { login } = useAuth(); // Access the login function from the context

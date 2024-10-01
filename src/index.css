@@ -69,3 +69,6 @@ button:focus-visible {
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+/* body{
+background-image: linear-gradient(to top, #fad0c4 0%, #ffd1ff 100%);;
+} */

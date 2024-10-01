@@ -12,17 +12,20 @@ const {logout} = useAuth();
   };
 
   return (
-    <nav className="bg-gray-200 shadow shadow-gray-300 w-100 px-8 md:px-auto">
+    <nav className="bg-gradient-to-r from-violet-400 to-purple-300 shadow shadow-gray-300 w-100 px-8 md:px-auto">
       <div className="md:h-16 h-28 mx-auto md:px-4 container flex items-center justify-between flex-wrap md:flex-nowrap">
-        <div className="text-indigo-500 md:order-1">
+        <div className="text-indigo-800 md:order-1 flex">
+        
           <img src="https://img.icons8.com/?size=100&id=XKedzxVhRNPR&format=png&color=000000" alt="student portal" className="h-10 w-10" />
+          <h1 className='text-4xl font-extrabold ml-4'>STUDENT PORTAL</h1>
         </div>
-        <div className="text-gray-500 order-3 w-full md:w-auto md:order-2">
+        
+        <div className="text-gray-800 order-3 w-full md:w-auto md:order-2">
           <ul className="flex font-semibold justify-between">
-            <li className="md:px-4 md:py-2 hover:text-indigo-400"><NavLink to="/">Home</NavLink></li>
-            <li className="md:px-4 md:py-2 hover:text-indigo-400"><NavLink to="/student">Student</NavLink></li>
-            <li className="md:px-4 md:py-2 hover:text-indigo-400"><NavLink to="/teacher">Teacher</NavLink></li>
-            <li className="md:px-4 md:py-2 hover:text-indigo-400"><NavLink to="/result">Result</NavLink></li>
+            <li className="text-xl md:px-4 md:py-2 hover:text-indigo-700"><NavLink to="/">Home</NavLink></li>
+            <li className="text-xl md:px-4 md:py-2 hover:text-indigo-700"><NavLink to="/student">Student</NavLink></li>
+            <li className="text-xl md:px-4 md:py-2 hover:text-indigo-700"><NavLink to="/teacher">Teacher</NavLink></li>
+            <li className="text-xl md:px-4 md:py-2 hover:text-indigo-700"><NavLink to="/result">Result</NavLink></li>
           </ul>
         </div>
         <div className="order-2 md:order-3">
