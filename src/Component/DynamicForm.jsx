@@ -20,7 +20,7 @@ function DynamicForm({ fields, onSubmit, onCancel, initialValues }) {
     <form onSubmit={handleSubmit}>
       {fields.map((field) => (
         <div key={field.key} className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor={field.key}>
+          <label className="block text-gray-700 text-sm font-bold mb-4" htmlFor={field.key}>
             {field.label}
           </label>
           <input

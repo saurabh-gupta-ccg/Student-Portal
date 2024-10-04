@@ -1,76 +1,75 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { StudentContext } from '../context/StudentContext';
+import { TeacherContext } from '../context/TeacherContext';
 import DynamicTable from './DynamicTable';
 import Pagination from './Pagination';
 import DynamicForm from './DynamicForm';
 
 function Teacher() {
-  const { students, addStudent, deleteStudent, updateStudent } = useContext(StudentContext);
+  const { teachers, addTeacher, deleteTeacher, updateTeacher } = useContext(TeacherContext);
   const [showAddOverlay, setShowAddOverlay] = useState(false);
   const [showEditOverlay, setShowEditOverlay] = useState(false);
-  const [currentStudent, setCurrentStudent] = useState(null);
+  const [currentTeacher, setCurrentTeacher] = useState(null);
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
-  const studentsPerPage = 5;
+  const teachersPerPage = 5;
 
   // Calculate the index range for the current page
-  const indexOfLastStudent = currentPage * studentsPerPage;
-  const indexOfFirstStudent = indexOfLastStudent - studentsPerPage;
-  const currentStudents = students.slice(indexOfFirstStudent, indexOfLastStudent);
+  const indexOfLastTeacher = currentPage * teachersPerPage;
+  const indexOfFirstTeacher = indexOfLastTeacher - teachersPerPage;
+  const currentTeachers = teachers.slice(indexOfFirstTeacher, indexOfLastTeacher);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  const handleAddStudent = (newStudent) => {
-    const id = students.length > 0 ? Math.max(...students.map(student => student.id)) + 1 : 1;
-    addStudent({ ...newStudent, id });
+  const handleAddTeacher = (newTeacher) => {
+    const id = teachers.length > 0 ? Math.max(...teachers.map(teacher => teacher.id)) + 1 : 1;
+    addTeacher({ ...newTeacher, id });
     setShowAddOverlay(false);
   };
 
-  const handleEditStudent = (updatedStudent) => {
-    updateStudent(updatedStudent);
+  const handleEditTeacher = (updatedTeacher) => {
+    updateTeacher(updatedTeacher);
     setShowEditOverlay(false);
-    setCurrentStudent(null);
+    setCurrentTeacher(null);
   };
 
   useEffect(() => {
-    if (students.length <= studentsPerPage) {
+    if (teachers.length <= teachersPerPage) {
       setCurrentPage(1);
     }
-  }, [students.length]);
+  }, [teachers.length]);
 
   const handleDelete = (id) => {
-    deleteStudent(id);
+    deleteTeacher(id);
   };
 
-  const handleView = (student) => {
+  const handleView = (teacher) => {
     // Close the edit overlay if it's open
     if (showEditOverlay) {
       setShowEditOverlay(false);
-      setCurrentStudent(null);
+      setCurrentTeacher(null);
     }
-    // Set the current student to view or hide the view overlay if the same student is clicked
-    setCurrentStudent(currentStudent && currentStudent.id === student.id ? null : student);
+    // Set the current teacher to view or hide the view overlay if the same teacher is clicked
+    setCurrentTeacher(currentTeacher && currentTeacher.id === teacher.id ? null : teacher);
   };
 
-  const handleEdit = (student) => {
-    setCurrentStudent(student);
+  const handleEdit = (teacher) => {
+    setCurrentTeacher(teacher);
     setShowEditOverlay(true);
   };
 
-  const studentFields = [
-    { label: 'Name', key: 'name' },
+  // Define the fields for the teacher form
+  const teacherFields = [
+    { label: 'Teachers_Name', key: 'name' },
     { label: 'Email', key: 'email', type: 'email' },
-    { label: 'DOB', key: 'DOB', type: 'date' },
-    { label: 'Course', key: 'course' },
-    { label: 'Branch', key: 'branch' },
-    { label: 'Year', key: 'year' },
+    { label: 'Dept', key: 'department' },
+    { label: 'Contact', key: 'contact',type:'number' },
   ];
-  const studentField = [
-    {label: 'id', key: `id`},
-    { label: 'Name', key: 'name' },
-    { label: 'Email', key: 'email', type: 'email' },
-  
+
+  const teacherColumns = [
+    { label: 'ID', key: 'id' },
+    { label: 'Teachers_Name', key: 'name' },
+    { label: 'Dept', key: 'department', type: 'string' },
   ];
 
   return (
@@ -79,33 +78,33 @@ function Teacher() {
         onClick={() => setShowAddOverlay(true)}
         className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-4"
       >
-        Add Student
+        Add Teacher
       </button>
 
-      {/* Overlay for Adding Student */}
+      {/* Overlay for Adding Teacher */}
       {showAddOverlay && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-gradient-to-r from-indigo-400 to-cyan-400 shadow-md rounded-lg p-6 w-11/12 md:w-1/3">
-            <h2 className="text-xl font-bold mb-4">Add Student</h2>
+            <h2 className="text-xl font-bold mb-4">Add Teacher</h2>
             <DynamicForm
-              fields={studentFields}
-              onSubmit={handleAddStudent}
+              fields={teacherFields}
+              onSubmit={handleAddTeacher}
               onCancel={() => setShowAddOverlay(false)}
             />
           </div>
         </div>
       )}
 
-      {/* Overlay for Editing Student */}
-      {showEditOverlay && currentStudent && (
+      {/* Overlay for Editing Teacher */}
+      {showEditOverlay && currentTeacher && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-gradient-to-r from-indigo-400 to-cyan-400 shadow-md rounded-lg p-6 w-11/12 md:w-1/3">
-            <h2 className="text-xl font-bold mb-4">Edit Student</h2>
+            <h2 className="text-xl font-bold mb-4">Edit Teacher</h2>
             <DynamicForm
-              fields={studentFields}
-              onSubmit={handleEditStudent}
+              fields={teacherFields}
+              onSubmit={handleEditTeacher}
               onCancel={() => setShowEditOverlay(false)}
-              initialValues={currentStudent}
+              initialValues={currentTeacher}
             />
           </div>
         </div>
@@ -113,34 +112,31 @@ function Teacher() {
 
       {/* Dynamic Table */}
       <DynamicTable
-        columns={studentField}
-        data={currentStudents}
+        columns={teacherColumns}
+        data={currentTeachers}
         handleView={handleView}
         handleDelete={handleDelete}
         handleEdit={handleEdit}
-        viewItem={currentStudent} // This remains to show the view overlay
+        viewItem={currentTeacher} // This remains to show the view overlay
       />
-      {students.length > 5 && (
+      {teachers.length > 5 && (
         <Pagination
-          studentsPerPage={studentsPerPage}
-          totalStudents={students.length}
+          studentsPerPage={teachersPerPage}
+          totalStudents={teachers.length}
           paginate={paginate}
         />
       )}
 
-      {/* Overlay for Viewing Selected Student */}
-      {currentStudent && !showEditOverlay && ( // Check if not in edit mode
+      {/* Overlay for Viewing Selected Teacher */}
+      {currentTeacher && !showEditOverlay && ( // Check if not in edit mode
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-gradient-to-r from-violet-200 to-pink-200 shadow-md rounded-lg p-6 w-11/12 md:w-1/4 h-2/4 flex-col justify-evenly">
-            <h3 className="text-2xl font-bold">{currentStudent.name}</h3>
-            <p className="text-lg text-gray-600">{currentStudent.email}</p>
-            <p className="text-lg text-gray-600">DOB: {currentStudent.DOB}</p>
-            <p className="text-lg text-green-600">{currentStudent.status}</p>
-            <p className="text-lg text-gray-600">Course: {currentStudent.course}</p>
-            <p className="text-lg text-gray-600">Branch: {currentStudent.branch}</p>
-            <p className="text-lg text-gray-600">Year: {currentStudent.year}</p>
+            <h3 className="text-2xl font-bold">{currentTeacher.name}</h3>
+            <p className="text-lg text-gray-600">{currentTeacher.email}</p>
+            <p className="text-lg text-gray-600">Department: {currentTeacher.department}</p>
+            <p className="text-lg text-gray-600">Contact Number: {currentTeacher.contact}</p>
             <button
-              onClick={() => setCurrentStudent(null)}
+              onClick={() => setCurrentTeacher(null)}
               className="mt-4 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
             >
               Close
@@ -152,7 +148,4 @@ function Teacher() {
   );
 }
 
-
-
-
-export default Teacher
+export default Teacher;
